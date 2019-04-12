@@ -45,7 +45,7 @@ class App extends Component {
   }
   updateProduct(id, object) {
     axios
-      .post("/api/product/" + id, object)
+      .put("/api/product/" + id, object)
       .then(res => this.setState({ products: res.data }))
       .catch(error => console.log(error));
   }

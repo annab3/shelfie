@@ -22,6 +22,7 @@ class Form extends Component {
   clickHandlerUpdate(id) {
     let { name, price, image_url } = this.state;
     this.props.updateProduct(id, {
+      id,
       name,
       price,
       image_url
