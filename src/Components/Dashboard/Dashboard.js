@@ -4,7 +4,7 @@ import Product from "../Product/Product";
 class Dashboard extends Component {
   render() {
     return (
-      <div>
+      <div className="dashboard_container">
         {this.props.products.map(product => (
           <Product product={product} />
         ))}
