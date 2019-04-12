@@ -4,21 +4,30 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: "",
+      price: 0,
       image_url:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/400px-No_image_3x4.svg.png",
-      product_name: "",
-      price: 0
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/400px-No_image_3x4.svg.png"
     };
   }
   clickHandlerCancel() {
-    this.setState({ image_url: "", product_name: "", price: 0 });
+    this.setState({ name: "", price: 0, image_url: "" });
+  }
+  clickHandlerAdd() {
+    let { name, price, image_url } = this.state;
+    this.props.createProduct({ name, price, image_url });
+    this.setState({ name: "", price: 0, image_url: "" });
   }
 
   render() {
     return (
       <form>
-        <div>
-          <img className="display_image" src={this.state.image_url} />
+        <div className="form_image_container">
+          <img
+            alt="preview"
+            className="display_image"
+            src={this.state.image_url}
+          />
         </div>
         <label>Image URL:</label>
         <input
@@ -28,16 +37,26 @@ class Form extends Component {
         <label>Product Name:</label>
         <input
           type="text"
-          onChange={e => this.setState({ product_name: e.target.value })}
+          onChange={e => this.setState({ name: e.target.value })}
         />
         <label>Price:</label>
         <input
-          type="number"
+          type="float"
           onChange={e => this.setState({ price: e.target.value })}
         />
-        <div>
-          <button>Cancel</button>
-          <button>Add to Inventory</button>
+        <div className="form_buttons_container">
+          <button
+            className="form_button"
+            onClick={() => this.clickHandlerCancel()}
+          >
+            Cancel
+          </button>
+          <button
+            className="form_button"
+            onClick={() => this.clickHandlerAdd()}
+          >
+            Add to Inventory
+          </button>
         </div>
       </form>
     );

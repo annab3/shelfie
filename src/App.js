@@ -11,9 +11,14 @@ class App extends Component {
     this.state = {
       products: []
     };
+    this.createProduct = this.createProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
   }
 
   componentDidMount() {
+    this.getInventory();
+  }
+  getInventory() {
     axios
       .get("/api/inventory")
       .then(res => {
@@ -23,14 +28,29 @@ class App extends Component {
         console.log(error);
       });
   }
+  createProduct(object) {
+    axios
+      .post("/api/product", object)
+      .then(res => this.setState({ products: res.data }))
+      .catch(error => console.log(error));
+  }
+  deleteProduct(id) {
+    axios
+      .delete("/api/product/" + id)
+      .then(res => this.setState({ products: res.data }))
+      .catch(error => console.log(error));
+  }
 
   render() {
     return (
       <div className="App">
         <Header />
         <main>
-          <Dashboard products={this.state.products} />
-          <Form />
+          <Dashboard
+            products={this.state.products}
+            deleteProduct={this.deleteProduct}
+          />
+          <Form createProduct={this.createProduct} />
         </main>
       </div>
     );
