@@ -5,8 +5,9 @@ class Dashboard extends Component {
   render() {
     return (
       <div>
-        Dashboard
-        <Product />
+        {this.props.products.map(product => (
+          <Product product={product} />
+        ))}
       </div>
     );
   }
