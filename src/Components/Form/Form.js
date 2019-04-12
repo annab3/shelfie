@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Switch, Route } from "react-router-dom";
 
 class Form extends Component {
   constructor(props) {
@@ -18,10 +19,20 @@ class Form extends Component {
     this.props.createProduct({ name, price, image_url });
     this.setState({ name: "", price: 0, image_url: "" });
   }
+  clickHandlerUpdate(id) {
+    let { name, price, image_url } = this.state;
+    this.props.updateProduct(id, {
+      name,
+      price,
+      image_url
+    });
+    this.setState({ name: "", price: 0, image_url: "" });
+  }
 
   render() {
     return (
       <form>
+        {console.log()}
         <div className="form_image_container">
           <img
             alt="preview"
@@ -51,12 +62,31 @@ class Form extends Component {
           >
             Cancel
           </button>
-          <button
-            className="form_button"
-            onClick={() => this.clickHandlerAdd()}
-          >
-            Add to Inventory
-          </button>
+          <Switch>
+            <Route
+              path="/form"
+              render={() => (
+                <button
+                  className="form_button"
+                  onClick={() => this.clickHandlerAdd()}
+                >
+                  Add to Inventory
+                </button>
+              )}
+            />
+            <Route
+              path="/update/:id"
+              render={() => (
+                <button
+                  className="form_button"
+                  onClick={() => this.clickHandlerUpdate(this.props.id)}
+                >
+                  {console.log(this.props.id)}
+                  Save Changes
+                </button>
+              )}
+            />
+          </Switch>
         </div>
       </form>
     );

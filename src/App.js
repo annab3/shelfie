@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { HashRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Form from "./Components/Form/Form";
@@ -9,10 +10,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      id: 0
     };
     this.createProduct = this.createProduct.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
+    this.setId = this.setId.bind(this);
   }
 
   componentDidMount() {
@@ -40,19 +43,48 @@ class App extends Component {
       .then(res => this.setState({ products: res.data }))
       .catch(error => console.log(error));
   }
+  updateProduct(id, object) {
+    axios
+      .post("/api/product/" + id, object)
+      .then(res => this.setState({ products: res.data }))
+      .catch(error => console.log(error));
+  }
+  setId(id) {
+    this.setState({ id });
+  }
 
   render() {
     return (
-      <div className="App">
-        <Header />
-        <main>
-          <Dashboard
-            products={this.state.products}
-            deleteProduct={this.deleteProduct}
-          />
-          <Form createProduct={this.createProduct} />
-        </main>
-      </div>
+      <HashRouter>
+        <div className="App">
+          <Header />
+          <main>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <Dashboard
+                    products={this.state.products}
+                    deleteProduct={this.deleteProduct}
+                    setId={this.setId}
+                  />
+                )}
+              />
+              <Route
+                path="/form"
+                render={() => <Form createProduct={this.createProduct} />}
+              />
+              <Route
+                path="/update/:id"
+                render={() => (
+                  <Form updateProduct={this.updateProduct} id={this.state.id} />
+                )}
+              />
+            </Switch>
+          </main>
+        </div>
+      </HashRouter>
     );
   }
 }

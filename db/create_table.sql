@@ -1,0 +1,1 @@
+CREATE TABLE product (id SERIAL PRIMARY KEY, name VARCHAR(50), price FLOAT, image_url VARCHAR(225))

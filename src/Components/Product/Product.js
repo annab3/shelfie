@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class Product extends Component {
   render() {
@@ -16,7 +17,11 @@ class Product extends Component {
             >
               Delete
             </button>
-            <button>Edit</button>
+            <Link to={"/update/" + this.props.product.id}>
+              <button onClick={() => this.props.setId(this.props.product.id)}>
+                Edit
+              </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -31,8 +31,24 @@ const deleteProduct = (req, res) => {
     );
 };
 
+const updateProduct = (req, res) => {
+  req.app
+    .get("db")
+    .update_product([
+      req.body.name,
+      req.body.price,
+      req.body.image_url,
+      req.params.id
+    ])
+    .then(result => res.status(200).json(result))
+    .catch(error =>
+      res.status(500).json({ error: "Something went horribly wrong" })
+    );
+};
+
 module.exports = {
   getProducts,
   createProduct,
-  deleteProduct
+  deleteProduct,
+  updateProduct
 };
